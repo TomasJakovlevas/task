@@ -1,24 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useReducer } from 'react';
+import CompA from './components/CompA';
+
+// Context
+export const ButtonContext = React.createContext();
+
+// useReducer initial state
+let initialButtonState = { value: '' };
+
+// useReducer reducer function
+const buttonReducer = (state, action) => {
+  switch (action.content) {
+    case 'posts':
+      return { value: action.content };
+    default:
+      console.log('nu nelabai dar');
+  }
+};
+
+const fetch = (param) => {
+  console.log('fetchApi+', param);
+};
 
 function App() {
+  const [state, dispatch] = useReducer(buttonReducer, initialButtonState);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <ButtonContext.Provider value={{ dispatch }}>
+        <main>
+          <CompA />
+        </main>
+      </ButtonContext.Provider>
+    </>
   );
 }
 
